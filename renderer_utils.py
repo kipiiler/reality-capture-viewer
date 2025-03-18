@@ -106,7 +106,7 @@ def create_camera_frustum_open3d(scale=1.0):
     )
     return camera
 
-def create_visualize_boundary_cube_with_anchor(length, origin):
+def create_visualize_boundary_cube_with_anchor(length, origin, color=[0.8, 0.8, 0.8]):
     """
     Create a wireframe cube to visualize the boundary, with given length and
     original as lower-left corner
@@ -130,7 +130,7 @@ def create_visualize_boundary_cube_with_anchor(length, origin):
         [4, 6], [5, 7], [6, 7]   # bottom face
     ]
 
-    colors = [[0.8, 0.8, 0.8] for _ in range(len(lines))]
+    colors = [color for _ in range(len(lines))]
 
     line_set = o3d.geometry.LineSet(
         points=o3d.utility.Vector3dVector(points),
