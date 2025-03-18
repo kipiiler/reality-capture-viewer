@@ -106,7 +106,7 @@ def create_camera_frustum_open3d(scale=1.0):
     )
     return camera
 
-def create_visualize_boundary_cube(length, origin):
+def create_visualize_boundary_cube_with_anchor(length, origin):
     """
     Create a wireframe cube to visualize the boundary, with given length and
     original as lower-left corner
@@ -145,4 +145,4 @@ def create_visualize_boundary_cube(max_distance):
     Create a wireframe cube to visualize the boundary
     """
     lower_left = [-max_distance, -max_distance, -max_distance]
-    return create_visualize_boundary_cube(max_distance, lower_left)
+    return create_visualize_boundary_cube_with_anchor(max_distance, lower_left)

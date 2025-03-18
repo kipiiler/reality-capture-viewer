@@ -21,6 +21,11 @@ def translate_pcd(vis, pcds, delta):
     translation[:3, 3] = delta
     return apply_transformation(vis, pcds, translation)
 
+def scale_pcd(vis, pcds, scale):
+    scaling = np.eye(4)
+    scaling[:3, :3] = np.diag(scale)
+    return apply_transformation(vis, pcds, scaling)
+
 def rotate_pcd(vis, pcds, axis, angle_deg):
     angle = np.radians(angle_deg)
     c, s = np.cos(angle), np.sin(angle)
@@ -51,8 +56,10 @@ def main():
     renderer = Renderer()
     renderer.load_source_pcd("C:/Users/nguye/Desktop/3d/test_data/test.ply", max_distance=50)
 
-    axes = create_positive_axes(50.0)
+    axes = create_positive_axes(50.0) # 5m  
     renderer.load_pcd(axes, custom_id="axes")
+
+    renderer.load_wireframe_chunk(max_distance=30)
 
     camera_data = read_camera_poses_from_file("C:/Users/nguye/Desktop/3d/test_data/reg.csv", True)
 
@@ -63,8 +70,9 @@ def main():
         renderer.load_pcd(camera, custom_id=f"camera_{i}")
 
     list_models = [renderer.source_pcd]
+    print(renderer.pcd_ids)
     for key in renderer.pcd_ids:
-        if key != "axes":
+        if key != "axes" and "wireframe_chunk" not in str(key):
             list_models.append(renderer.pcd_ids[key])
 
     for model in list_models:
@@ -84,12 +92,17 @@ def main():
     key_to_callback[ord("U")] = lambda vis: rotate_pcd(vis, list_models, 'z', -5)
     key_to_callback[ord("O")] = lambda vis: rotate_pcd(vis, list_models, 'z', 5)
 
+    key_to_callback[ord("G")] = lambda vis: scale_pcd(vis, list_models, [0.9, 0.9, 0.9])
+    key_to_callback[ord("H")] = lambda vis: scale_pcd(vis, list_models, [1.1, 1.1, 1.1])
+
     print("Rendering...")
     renderer.render(key_to_callback=key_to_callback)
     print("Done!")
 
     print("Final transformation matrix:")
     print(transformation_matrix)
+
+    np.save("transformation_matrix.npy", transformation_matrix)
 
 if __name__ == "__main__":
     main()
