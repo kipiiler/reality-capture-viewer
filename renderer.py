@@ -1,6 +1,7 @@
 import open3d as o3d
 import numpy as np
 import copy
+from ray import Cube
 from transform import convert_coordinate_system_pcd, prune_point_cloud_cube
 from renderer_utils import create_visualize_boundary_cube, create_visualize_boundary_cube_with_anchor
 
@@ -72,6 +73,24 @@ class Renderer:
                 self.vis.register_key_callback(key, callback)
         self.vis.run()
         self.vis.destroy_window()
+
+    def generate_chunk_cube(self, chunk_size=10, max_distance=50):
+        """
+        Generate a cube with the given chunk size
+        """
+        top_left = [max_distance, max_distance, max_distance]
+        bottom_right = [-max_distance, -max_distance, -max_distance]
+
+        cube_list = []
+
+        for x in np.arange(bottom_right[0], top_left[0], chunk_size):
+            for y in np.arange(bottom_right[1], top_left[1], chunk_size):
+                for z in np.arange(bottom_right[2], top_left[2], chunk_size):
+                    center = np.array([x, y, z]) + chunk_size / 2
+                    cube = Cube(center, chunk_size)
+                    cube_list.append(cube)
+        
+        return cube_list
 
     def load_wireframe_chunk(self, chunk_size=10, max_distance=50):
         """

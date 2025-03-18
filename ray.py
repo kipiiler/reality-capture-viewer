@@ -89,4 +89,4 @@ class Cube(Hittable):
         lower_left = self.center - self.side_length / 2
         print(lower_left)
 
-        return create_visualize_boundary_cube_with_anchor(self.side_length, lower_left, color=[1., 0., 0.])
+        return create_visualize_boundary_cube_with_anchor(self.side_length + 0.1, lower_left, color=[1., 0., 0.])
