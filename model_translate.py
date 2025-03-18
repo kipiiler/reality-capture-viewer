@@ -49,7 +49,7 @@ def main():
         f.write("#name,position,rotation\n")
         for filename, position, rotation in output_data:
             x, y, z = position.flatten()
-            heading, pitch, roll = rotation
+            pitch, roll, heading = rotation
             f.write(f"{filename},{x},{y},{z},{heading},{pitch},{roll}\n")        
 
 if __name__ == "__main__":

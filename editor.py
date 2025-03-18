@@ -59,7 +59,7 @@ def main():
     axes = create_positive_axes(50.0) # 5m  
     renderer.load_pcd(axes, custom_id="axes")
 
-    renderer.load_wireframe_chunk(max_distance=30)
+    renderer.load_wireframe_chunk(max_distance=20)
 
     camera_data = read_camera_poses_from_file("C:/Users/nguye/Desktop/3d/test_data/reg.csv", True)
 
