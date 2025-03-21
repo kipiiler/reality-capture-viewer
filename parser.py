@@ -6,6 +6,13 @@ def parse_line(line, convert_coord = True):
     filename = line[0]
     position = np.array([float(x) for x in line[1:4]])
     rotation = np.array([float(x) for x in line[4:7]])
+    # f = line[7]
+    # px = line[8]
+    # py = line[9]
+    # k1 = line[10]
+    # k2 = line[11]
+    # k3 = line[12]
+    # k4 = line[13]
     if convert_coord:
         position = np.array([position[0], position[2], position[1]])
     return filename, position, rotation
