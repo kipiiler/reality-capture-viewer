@@ -6,7 +6,7 @@ from transform import create_camera_transformation_matrix
 
 def main():
     renderer = Renderer()
-    renderer.load_source_pcd("transformed.ply", convert_coord=False, max_distance=50)
+    renderer.load_source_pcd("transformed_with_float32.ply", convert_coord=False, max_distance=50)
 
     axes = create_positive_axes(50.0) # 5m 
     renderer.load_lineset(axes)

@@ -78,7 +78,7 @@ def main():
         for filename, position, rotation in output_data:
             x, y, z = position.flatten()
             pitch, roll, heading = rotation
-            f.write(f"{filename},{x},{y},{z},{heading},{pitch},{roll},30,0,0,0,0,0,0,0,0\n")        
+            f.write(f"{filename},{x},{y},{z},{roll},{pitch},{heading},30,0,0,0,0,0,0,0,0\n")        
 
 if __name__ == "__main__":
     main()

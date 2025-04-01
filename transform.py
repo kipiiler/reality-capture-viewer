@@ -28,7 +28,7 @@ def create_camera_transformation_matrix(position, rotation, use_custom_cal = Fal
     if use_custom_cal:
         rotation_matrix = euler_to_rotation_matrix(*rotation)
     else:
-        rotation_matrix = o3d.geometry.get_rotation_matrix_from_zxy(
+        rotation_matrix = o3d.geometry.get_rotation_matrix_from_zyx(
             [np.radians(heading), np.radians(pitch), np.radians(roll)]
         )
 
@@ -36,6 +36,16 @@ def create_camera_transformation_matrix(position, rotation, use_custom_cal = Fal
     transformation = np.eye(4)
     transformation[:3, :3] = rotation_matrix
     transformation[:3, 3] = position
+
+    # do a 180 degree rotation around the x axis
+    # to convert from reality capture to open3d
+
+    # transformation = np.dot(transformation, np.array([
+    #     [1, 0, 0, 0],
+    #     [0, -1, 0, 0],
+    #     [0, 0, -1, 0],
+    #     [0, 0, 0, 1]
+    # ]))
 
     return transformation
 

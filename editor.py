@@ -55,18 +55,18 @@ def rotate_pcd(vis, pcds, axis, angle_deg):
 def main():
 
     renderer = Renderer()
-    renderer.load_source_pcd("C:/Users/nguye/Desktop/3d/image_table_clear/test.ply", max_distance=50)
+    renderer.load_source_pcd("C:/Users/nguye/Desktop/3d/image_table_full/test.ply", max_distance=50, convert_coord=False)
 
     axes = create_positive_axes(50.0) # 5m  
     renderer.load_pcd(axes, custom_id="axes")
 
     renderer.load_wireframe_chunk(max_distance=20)
 
-    camera_data = read_camera_poses_from_file("C:/Users/nguye/Desktop/3d/image_table_clear/reg.csv", True)
+    camera_data = read_camera_poses_from_file("C:/Users/nguye/Desktop/3d/image_table_full/reg.csv", False)
 
     for i, (_, position, rotation) in enumerate(camera_data):
         camera = create_camera_frustum_open3d()
-        transformation = create_camera_transformation_matrix(position, rotation)
+        transformation = create_camera_transformation_matrix(position, rotation, use_custom_cal=True)
         camera.transform(transformation)
         renderer.load_pcd(camera, custom_id=f"camera_{i}")
 

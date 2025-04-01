@@ -39,28 +39,28 @@ def extract_rotation_position_scale_uniform(matrix):
 
 def rotation_matrix_to_euler_angles(rotation_matrix):
     """
-    Converts a rotation matrix to Euler angles (pitch, yaw, heading) in degrees.
+    Converts a 3x3 rotation matrix to Euler angles (roll, pitch, yaw) in degrees.
+    Roll: rotation around x-axis
+    Pitch: rotation around y-axis
+    Yaw: rotation around z-axis
 
     Args:
         rotation_matrix: A 3x3 numpy array representing the rotation matrix.
 
     Returns:
-        A tuple containing pitch, yaw, and heading angles in degrees.
+        A tuple (roll, pitch, yaw) in degrees.
     """
+    sy = math.sqrt(rotation_matrix[0, 0] ** 2 + rotation_matrix[1, 0] ** 2)
 
-    sy = math.sqrt(rotation_matrix[0, 0] * rotation_matrix[0, 0] + rotation_matrix[1, 0] * rotation_matrix[1, 0])
+    singular = sy < 1e-6
 
-    if sy > 1e-6:
-        pitch = math.atan2(rotation_matrix[2, 1], rotation_matrix[2, 2])
-        yaw = math.atan2(-rotation_matrix[2, 0], sy)
-        heading = math.atan2(rotation_matrix[1, 0], rotation_matrix[0, 0])
+    if not singular:
+        roll = math.atan2(rotation_matrix[2, 1], rotation_matrix[2, 2])
+        pitch = math.atan2(-rotation_matrix[2, 0], sy)
+        yaw = math.atan2(rotation_matrix[1, 0], rotation_matrix[0, 0])
     else:
-        pitch = math.atan2(-rotation_matrix[1, 2], rotation_matrix[1, 1])
-        yaw = math.atan2(-rotation_matrix[2, 0], sy)
-        heading = 0
+        roll = math.atan2(-rotation_matrix[1, 2], rotation_matrix[1, 1])
+        pitch = math.atan2(-rotation_matrix[2, 0], sy)
+        yaw = 0
 
-    pitch_deg = math.degrees(pitch)
-    yaw_deg = math.degrees(yaw)
-    heading_deg = math.degrees(heading)
-
-    return pitch_deg, yaw_deg, heading_deg
+    return math.degrees(roll), math.degrees(pitch), math.degrees(yaw)
